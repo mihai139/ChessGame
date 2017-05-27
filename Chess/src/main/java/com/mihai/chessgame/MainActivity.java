@@ -19,12 +19,14 @@ import android.os.Handler;
 import android.util.Log;
 import android.util.Size;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -611,10 +613,14 @@ public class MainActivity extends AppCompatActivity {
                                 // wrong move
                                 gamephase = 0;
 
-
                                 if (markedLayout != null) {
                                     markedLayout.setVisibility(View.GONE);
                                 }
+
+                                alertWrongMove();
+
+
+
 
                             }
                         }else{
@@ -665,6 +671,34 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
+    }
+
+
+    private void alertWrongMove(){
+        final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        final View dialogView = getLayoutInflater().inflate(R.layout.alert_wrong_move, null);
+        alertDialog.setView(dialogView);
+        alertDialog.show();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (alertDialog.isShowing()) {
+                    alertDialog.dismiss();
+                }
+            }
+        };
+
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+
+        handler.postDelayed(runnable, 750);
     }
 }
 
