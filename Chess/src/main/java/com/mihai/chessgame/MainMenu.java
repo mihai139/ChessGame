@@ -130,11 +130,9 @@ public class MainMenu extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
-
-
-
-
     }
+
+
 
     class MyBounceInterpolator implements android.view.animation.Interpolator {
         double mAmplitude = 1;
