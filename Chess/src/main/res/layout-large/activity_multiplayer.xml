@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mihai.chessgame.Multiplayer">
+    tools:context="com.mihai.chessgame.Multiplayer"
+    android:weightSum="1">
 
 
         <Button
@@ -18,12 +19,13 @@
 
         <Button
             android:id="@+id/btnDiscoverable_on_off"
-            android:layout_width="394dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:onClick="btnEnableDisable_Discoverable"
             android:text="Enable Discoverable"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_weight="0.00" />
 
         <Button
             android:id="@+id/btnFindUnpairedDevices"
@@ -44,7 +46,7 @@
 
         <EditText
             android:id="@+id/editText"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Text Here"
             tools:layout_editor_absoluteX="0dp"
@@ -52,7 +54,7 @@
 
         <Button
             android:id="@+id/btnSend"
-            android:layout_width="wrap_content"
+            android:layout_width="571dp"
             android:layout_height="wrap_content"
             android:text="SEND"
             tools:layout_editor_absoluteX="0dp"
@@ -60,22 +62,21 @@
 
         <ListView
 
-            android:layout_width="0dp"
-            android:layout_height="117dp"
             android:id="@+id/lvNewDevices"
-            tools:layout_editor_absoluteY="0dp"
-            tools:layout_editor_absoluteX="8dp" />
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp" />
 
         <TextView
             android:id="@+id/incomingMessage"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="0.29"
             android:text="Messages: "
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp"
-             />
-
+            tools:layout_editor_absoluteY="0dp" />
 
 
 </LinearLayout>
