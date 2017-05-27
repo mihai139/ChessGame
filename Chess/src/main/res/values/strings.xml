@@ -12,7 +12,8 @@
     <string name="cancelBtn">NO</string>
     <string name="confirmNewGame">Confirm new game?</string>
     <string name="youWon">YOU WIN!</string>
-    <string name="youLost">YOU LOST!</string>
+    <string name="youLose">YOU LOSE!</string>
+    <string name="invalidMove">Invalid Move!</string>
 
 
     <string name="dummy_button">Dummy Button</string>
