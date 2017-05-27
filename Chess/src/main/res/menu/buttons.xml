@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+
+
+    <item
+        android:id="@+id/rules_of_chess"
+        android:title="@string/rules_of_chess"
+
+
+        app:showAsAction="never"/>
+    <item android:id="@+id/about"
+        android:title="About"
+        app:showAsAction="never"/>
+
+
+    <item android:id="@+id/rate_app"
+        android:title="@string/rate_app"
+        app:showAsAction="never"/>
+
+
+</menu>

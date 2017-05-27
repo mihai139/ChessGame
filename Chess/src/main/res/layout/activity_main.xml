@@ -1,0 +1,59 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mihai.chessgame.MainActivity"
+    android:id="@+id/frameLayout">
+
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+
+        />
+
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gameLayout">
+
+
+        <TextView
+                    android:id="@+id/text3"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/rounded_corner"
+                    android:gravity="center"
+            android:textColor="#ffffff"
+                    android:textSize="25sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="70dp"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/newGame"
+            android:layout_width="62dp"
+            android:layout_height="55dp"
+            android:background="@drawable/new_game"
+            android:layout_gravity="left"
+            android:onClick="replay"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+
+
+
+    </LinearLayout>
+
+</FrameLayout>

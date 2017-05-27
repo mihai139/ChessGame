@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">ChessGame</string>
+    <string name="single_player">SINGLE  PLAYER</string>
+    <string name="two_player">TWO  PLAYER</string>
+    <string name="about">About</string>
+    <string name="restart">New Game</string>
+    <string name="welcome">WELCOME</string>
+    <string name="rules_of_chess">Rules of chess</string>
+    <string name="rate_app">Rate app</string>
+    <string name="turn">TURN</string>
+    <string name="yesBtn">YES</string>
+    <string name="cancelBtn">NO</string>
+    <string name="confirmNewGame">Confirm new game?</string>
+    <string name="youWon">YOU WIN!</string>
+    <string name="youLost">YOU LOST!</string>
+
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="join_string">JOIN</string>
+    <string name="host_string">HOST</string>
+
+    <string name="Rules1">
+        The rules of chess (also known as the laws of chess) are rules governing the play of the game of chess. +"\n"+
+
+        "While the exact origins of chess are unclear, modern rules first took form during the Middle Ages." +"\n"
+
+
+
+
+
+    </string>
+</resources>
