@@ -8,10 +8,13 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -339,7 +342,9 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
             Log.d(TAG, "btnDiscover: Canceling discovery.");
 
             //check BT permissions in manifest
-            checkBTPermissions();
+
+                checkBTPermissions();
+
 
             mBluetoothAdapter.startDiscovery();
             IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -363,16 +368,19 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
      *
      * NOTE: This will only execute on versions > LOLLIPOP because it is not needed otherwise.
      */
-    @TargetApi(Build.VERSION_CODES.M)
+
     private void checkBTPermissions() {
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
-            int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
-            permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
-            if (permissionCheck != 0) {
-                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
+        {
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                int permissionCheck = ContextCompat.checkSelfPermission(this, "Manifest.permission.ACCESS_FINE_LOCATION");
+                permissionCheck += ContextCompat.checkSelfPermission(this, "Manifest.permission.ACCESS_COARSE_LOCATION");
+                if (permissionCheck != 0) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
+                }
             }
-        }else{
-            Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
+            else {
+                Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
+            }
         }
     }
 

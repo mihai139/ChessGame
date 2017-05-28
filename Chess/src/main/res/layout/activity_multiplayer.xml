@@ -60,11 +60,11 @@
 
         <ListView
 
-            android:layout_width="0dp"
-            android:layout_height="117dp"
             android:id="@+id/lvNewDevices"
-            tools:layout_editor_absoluteY="0dp"
-            tools:layout_editor_absoluteX="8dp" />
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp" />
 
         <TextView
             android:id="@+id/incomingMessage"
