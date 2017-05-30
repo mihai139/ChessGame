@@ -10,7 +10,6 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,14 +18,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.util.Size;
 import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -449,9 +446,6 @@ public class MainActivity extends AppCompatActivity {
 
         gameLayout.setBackground(back);
 
-
-
-
         for(int i = 0; i< 8; i++){
 
             for(int j=0; j< 8; j++){
@@ -459,14 +453,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if((i+j)%2 == 1) {
                     color = blackColor;
-
                 }
                 final RelativeLayout relativeLayout = new RelativeLayout(this);
                 final RelativeLayout markerLayout = new RelativeLayout(this);
 
                 final ImageButton b1 = new ImageButton(this);
-
-
 
                 imageButtons[i][j] = b1;
                 relativeLayout.setBackgroundColor((color));
@@ -484,7 +475,6 @@ public class MainActivity extends AppCompatActivity {
 
                 int markerColor = Color.parseColor("#cf000f");
                 int markerOffset = (int)widthScreen/240;
-
 
                 View leftBorderMarker = new View(this);
                 leftBorderMarker.setLayoutParams(new RelativeLayout.LayoutParams(markerOffset,squareSize.getHeight()));
@@ -506,41 +496,31 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams1.topMargin= squareSize.getWidth() -markerOffset;
                 bottomBorderMarker.setBackgroundColor(markerColor);
 
-
-
                 rightBorderMarker.setLayoutParams(layoutParams);
                 rightBorderMarker.setBackgroundColor(markerColor);
-
 
                 markerLayout.addView(rightBorderMarker);
                 markerLayout.addView(bottomBorderMarker);
 
-
                 markerLayout.setVisibility(View.GONE);
 
                 relativeLayout.addView(markerLayout);
-
-
 
                 final int c = color;
                 b1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-
                         ChessPieceModel pieceModel = chessTableModel.getChessTableModel()[y][x];
                         if ((gamephase == 1 && pieceModel != null && selectedPieceModel.getPieceColor()==pieceModel.getPieceColor()))
                         {
                             gamephase = 0;
-
                         }
                         if(gamephase==0 && pieceModel!= null){
 
                             if((playerTurn == 0 && pieceModel.getPieceColor()== ChessPieceModel.PieceColor.PIECE_WHITE)
                                     || (playerTurn == 1 && pieceModel.getPieceColor() == ChessPieceModel.PieceColor.PIECE_BLACK))
                             {
-
-
                                 selectedMarkerPosition.x = x;
                                 selectedMarkerPosition.y = y;
 
@@ -553,7 +533,6 @@ public class MainActivity extends AppCompatActivity {
                                 selectedPieceModel = pieceModel;
                                 selectedImageButton = b1;
                                 Log.d("Selected piece tyoe: ", selectedPieceModel.getPieceType().toString()+"");
-
                             }
                         }else
                         if((gamephase == 1 &&pieceModel== null)|| ((gamephase == 1 && pieceModel != null &&
@@ -562,18 +541,14 @@ public class MainActivity extends AppCompatActivity {
                             int y1 = selectedPieceModel.getPosition().y;
                          /*   int x2 = y;
                             int y2 = x;
-
                             String moveData = ""+x1+""+y1+""+x2+""+y2;*/
                             //Log.d("Signature: ", moveData);
                             Log.d("Selec: ","sss "+ selectedPieceModel.getPieceType().toString()+"");
 
-
                             if(selectedPieceModel.listAllPossibleMovesForThisPiece(chessTableModel).contains(new Point(x,y))) {
                                 boolean moveAllowed = true;
 
-
                                 ChessTableModel table2 = new ChessTableModel();
-
                                 table2.setChessTableModel(chessTableModel.cloneTable());
                                 table2.performMove(selectedPieceModel.getPosition(), new Point(x, y));
                                 if (table2.isCheck(selectedPieceModel.getPieceColor())) {
@@ -584,6 +559,8 @@ public class MainActivity extends AppCompatActivity {
 
                                     chessTableModel.performMove(selectedMarkerPosition, new Point(x, y));
 
+                                    startAnimation(b1);
+
                                     updateTableBoardImage();
 
                                     gamephase = 0;
@@ -592,20 +569,15 @@ public class MainActivity extends AppCompatActivity {
                                     if (markedLayout != null) {
                                         markedLayout.setVisibility(View.GONE);
                                     }
-
                                     updateTurnLabel();
-
 
                                     // perform Oponent Move
                                     Thread thread = new Thread(){
                                         public void run(){
                                             performAutoMove(chessTableModel);
-
                                         }
                                     };
                                     thread.start();
-
-
                                 }
                             }
 
@@ -616,63 +588,60 @@ public class MainActivity extends AppCompatActivity {
                                 if (markedLayout != null) {
                                     markedLayout.setVisibility(View.GONE);
                                 }
-
                                 alertWrongMove();
-
-
-
-
                             }
                         }else{
                             if ((gamephase == 1 && pieceModel != null && selectedPieceModel.getPieceColor()==pieceModel.getPieceColor()))
                             {
                                 gamephase = 0;
-
-
                             }
-
                         }
                     }
-
                 });
-
             }
-
         }
         updateTableBoardImage();
-
     }
 
     private void updateTableBoardImage() {
-
         int valWhite = chessTableModel.tableValue(ChessPieceModel.PieceColor.PIECE_WHITE);
         int valBlack = chessTableModel.tableValue(ChessPieceModel.PieceColor.PIECE_BLACK);
-
         Log.d(TAG," RAPORT W:"+ valWhite+" B: "+valBlack);
-
         for(int i = 0;i<8;i++)
-            for(int j = 0; j<8;j++){
-
+            for(int j = 0; j<8;j++)
+            {
                 final ChessPieceModel pieceModel = chessTableModel.getChessPieceModelAtPoint(new Point(i,j));
-
                 ImageButton imageButton= imageButtons[i][j];
                 //  ImageButton b1 = listImageButtons.get(i*7+j);
-                if(pieceModel!= null){
-
+                if(pieceModel!= null)
+                {
                     Drawable dr = getDrawable(pieceModel.imageName());
                     Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
-
                     Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, squareSize.getWidth(),squareSize.getHeight(), true));
 
                     imageButton.setImageDrawable(d);
-
-                }else{
+                }else
+                {
                     imageButton.setImageDrawable(getDrawable("void_img"));
-
                 }
             }
     }
 
+    private void startAnimation(View v){
+        int originalPos3[] = new int[2];
+        v.getLocationOnScreen(originalPos3);
+        Log.d("QWE", "view.getWidth= "+v.getMeasuredWidth());
+        Log.d("QWE", "view.getHeight= "+v.getMeasuredHeight());
+        Log.d("ASD", "selectedMarker.x"+selectedMarkerPosition.x);
+        Log.d("ASD", "selectedMarker.y"+selectedMarkerPosition.y);
+
+
+        Animation animation = new TranslateAnimation(20, 1500,20,1100);
+        animation.setDuration(1000);
+        animation.setFillAfter(true);
+        v.startAnimation(animation);
+        v.setVisibility(View.VISIBLE);
+    }
 
     private void alertWrongMove(){
         final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
