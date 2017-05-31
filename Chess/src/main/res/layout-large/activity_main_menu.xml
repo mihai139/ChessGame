@@ -43,31 +43,44 @@
         android:weightSum="2"
         android:layout_marginTop="3dp"
         android:layout_below="@+id/my_toolbar"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout">
 
 
 
 
         <Button
             android:id="@+id/single_player"
-            android:layout_width="113dp"
-            android:layout_height="113dp"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
             android:layout_marginTop="13dp"
             android:layout_weight="1"
-            android:background="@drawable/one_player"
+            android:text="ONE PLAYER"
             android:onClick="singlePlayer"
-            android:textSize="30sp" />
+            android:textSize="17sp" />
 
 
         <Button
             android:id="@+id/two_player"
-            android:layout_width="113dp"
-            android:layout_height="113dp"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
             android:layout_marginTop="9dp"
             android:layout_weight="1"
-            android:background="@drawable/two_player"
+            android:text="TWO PLAYER"
             android:onClick="twoPlayer"
-            android:textSize="30sp" />
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/multiplayer_Btn"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/linearLayout"
+            android:layout_marginEnd="38dp"
+            android:textSize="17sp"
+            android:layout_marginTop="57dp"
+            android:onClick="startMultiplayer"
+            android:text="Multiplayer" />
 
 
 

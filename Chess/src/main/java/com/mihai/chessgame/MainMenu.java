@@ -31,6 +31,7 @@ public class MainMenu extends AppCompatActivity {
 
 
     private Context current;
+    public boolean isMultiplayer;
     Toolbar myToolbar;
     TextToSpeech toSpeech;
     public String message;
@@ -112,6 +113,7 @@ public class MainMenu extends AppCompatActivity {
         bounceAnim.setInterpolator(interpolator);
         v.startAnimation(bounceAnim);
         Intent intent = new Intent(MainMenu.this, MainActivity.class);
+        intent.putExtra("isMultiplayer", false);
         intent.setAction(Intent.ACTION_SEND);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
@@ -126,6 +128,15 @@ public class MainMenu extends AppCompatActivity {
         bounceAnim.setInterpolator(interpolator);
         v.startAnimation(bounceAnim);
         Intent intent = new Intent(MainMenu.this, Multiplayer.class);
+        intent.setAction(Intent.ACTION_SEND);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    public void startMultiplayer(View v){
+        Intent intent = new Intent(MainMenu.this, MainActivity.class);
+        intent.putExtra("isMultiplayer", true);
         intent.setAction(Intent.ACTION_SEND);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);

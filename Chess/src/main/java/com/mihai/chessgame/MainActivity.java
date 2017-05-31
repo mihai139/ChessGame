@@ -1,6 +1,7 @@
 package com.mihai.chessgame;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private Size squareSize;
     private int playerTurn;
 
-
+    public boolean isHost;
 
     private static final boolean AUTO_HIDE = true;
 
@@ -74,12 +75,6 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("InlinedApi")
         @Override
         public void run() {
-            // Delayed removal of status and navigation bar
-
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-
         }
     };
     private View mControlsView;
@@ -97,13 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mVisible;
     private FrameLayout frameLayout;
     private RelativeLayout gameLayout;
-
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-
+    public boolean isMultiplayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +100,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         Intent intent = getIntent();
+        isMultiplayer = intent.getBooleanExtra("isMultiplayer", false);
+        Log.d("isMultiplayer: ", ""+isMultiplayer);
+
         //overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         overridePendingTransition(0,0);
+
+
+
+        if(isMultiplayer){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Multiplayer Connection");
+            builder.setPositiveButton("JOIN", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    isHost = false;
+                }
+            });
+            builder.setNegativeButton("CREATE", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    isHost=true;
+                    ProgressDialog.show(MainActivity.this, "Loading", "Wait while loading...");
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        }
+
 
 
         display = getWindowManager().getDefaultDisplay();
@@ -442,9 +456,9 @@ public class MainActivity extends AppCompatActivity {
         squareSize = new Size(widthScreen/8, widthScreen/8);
 
         Point offset = new Point(1, (int)(heightScreen/6.3));
-        Drawable back = getResources().getDrawable(R.drawable.background_pic);
+        //Drawable back = getResources().getDrawable(R.drawable.background_pic);
 
-        gameLayout.setBackground(back);
+        gameLayout.setBackgroundColor(Color.GRAY);
 
         for(int i = 0; i< 8; i++){
 
@@ -559,7 +573,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     chessTableModel.performMove(selectedMarkerPosition, new Point(x, y));
 
-                                    startAnimation(b1);
+                                    //startAnimation(b1);
 
                                     updateTableBoardImage();
 

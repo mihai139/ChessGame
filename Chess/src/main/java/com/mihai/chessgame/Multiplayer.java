@@ -110,8 +110,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
             }
         });
 
-
-
         btnStartConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -285,12 +283,11 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
     //create method for starting connection
 //***remember the conncction will fail and app will crash if you haven't paired first
     public void startConnection(){
+
         startBTConnection(mBTDevice,MY_UUID_INSECURE);
     }
 
-    /**
-     * starting chat service method
-     */
+
     public void startBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
 
