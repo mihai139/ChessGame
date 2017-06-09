@@ -34,24 +34,19 @@ import java.util.UUID;
 public class Multiplayer extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     private static final String TAG = "MainActivity";
-
     BluetoothAdapter mBluetoothAdapter;
     Button btnEnableDisable_Discoverable;
 
     BluetoothConnectionService mBluetoothConnection;
-
     Button btnStartConnection;
     Button btnSend;
     StringBuilder messages;
     TextView incomingMessages;
-
     EditText etSend;
-
     private static final UUID MY_UUID_INSECURE =
             UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
    /*private static final UUID MY_UUID_INSECURE =
                  UUID.fromString("79161f1a-41f3-11e7-a919-92ebcb67fe33");*/
-
 
     BluetoothDevice mBTDevice;
 
@@ -60,7 +55,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
     public DeviceListAdapter mDeviceListAdapter;
 
     ListView lvNewDevices;
-
 
     @Override
     public void onBackPressed() {
@@ -71,7 +65,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
             startActivity(intent);
         }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +94,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
 
         lvNewDevices.setOnItemClickListener(Multiplayer.this);
 
-
         btnONOFF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,20 +117,7 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
                 etSend.setText("");
             }
         });
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
     // Create a BroadcastReceiver for ACTION_FOUND
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -165,10 +144,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
         }
     };
 
-    /**
-     * Broadcast Receiver for changes made to bluetooth states such as:
-     * 1) Discoverability mode on/off or expire.
-     */
     private final BroadcastReceiver mBroadcastReceiver2 = new BroadcastReceiver() {
 
         @Override
@@ -203,13 +178,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
         }
     };
 
-
-
-
-    /**
-     * Broadcast Receiver for listing devices that are not yet paired
-     * -Executed by btnDiscover() method.
-     */
     private BroadcastReceiver mBroadcastReceiver3 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -255,8 +223,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
         }
     };
 
-
-
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: called.");
@@ -267,8 +233,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
         unregisterReceiver(mBroadcastReceiver4);
         //mBluetoothAdapter.cancelDiscovery();
     }
-
-
 
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -283,18 +247,12 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
     //create method for starting connection
 //***remember the conncction will fail and app will crash if you haven't paired first
     public void startConnection(){
-
         startBTConnection(mBTDevice,MY_UUID_INSECURE);
     }
-
-
     public void startBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
-
         mBluetoothConnection.startClient(device,uuid);
     }
-
-
 
     public void enableDisableBT(){
         if(mBluetoothAdapter == null){
@@ -315,10 +273,7 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }
-
     }
-
-
     public void btnEnableDisable_Discoverable(View view) {
         Log.d(TAG, "btnEnableDisable_Discoverable: Making device discoverable for 300 seconds.");
 
@@ -328,7 +283,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
 
         IntentFilter intentFilter = new IntentFilter(mBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
         registerReceiver(mBroadcastReceiver2,intentFilter);
-
     }
 
     public void btnDiscover(View view) {
@@ -338,10 +292,7 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
             mBluetoothAdapter.cancelDiscovery();
             Log.d(TAG, "btnDiscover: Canceling discovery.");
 
-            //check BT permissions in manifest
-
                 checkBTPermissions();
-
 
             mBluetoothAdapter.startDiscovery();
             IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -357,14 +308,6 @@ public class Multiplayer extends AppCompatActivity implements AdapterView.OnItem
             registerReceiver(mBroadcastReceiver3, discoverDevicesIntent);
         }
     }
-
-    /**
-     * This method is required for all devices running API23+
-     * Android must programmatically check the permissions for bluetooth. Putting the proper permissions
-     * in the manifest is not enough.
-     *
-     * NOTE: This will only execute on versions > LOLLIPOP because it is not needed otherwise.
-     */
 
     private void checkBTPermissions() {
         {

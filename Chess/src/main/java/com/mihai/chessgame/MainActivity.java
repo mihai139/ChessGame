@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         isMultiplayer = intent.getBooleanExtra("isMultiplayer", false);
         Log.d("isMultiplayer: ", ""+isMultiplayer);
 
-        //overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        overridePendingTransition(0,0);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        //overridePendingTransition(0,0);
 
 
 
@@ -119,15 +119,16 @@ public class MainActivity extends AppCompatActivity {
             builder.setNegativeButton("CREATE", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     isHost=true;
-                    ProgressDialog.show(MainActivity.this, "Loading", "Wait while loading...");
+                    ProgressDialog progress = new ProgressDialog(MainActivity.this);
+                    progress.setTitle("Loading");
+                    progress.setMessage("Wait while loading...");
+                    progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
+                    progress.show();
                 }
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-
         }
-
-
 
         display = getWindowManager().getDefaultDisplay();
         sizeS = new Point();
@@ -186,19 +187,13 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.dismiss();
             }
         });
-
     }
-
-
-
 
     public  Drawable getDrawable(String name) {
         Context context = this;
         int resourceId = context.getResources().getIdentifier(name, "drawable", this.getPackageName());
         return context.getResources().getDrawable(resourceId);
     }
-
-
 
     private void changePlayerTurn(){
         if (playerTurn == 0){
@@ -210,20 +205,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void drawLabels(){
-
-
         text1.setText("");
-
     }
 
     private void updateTurnLabel(){
-
-
         if(playerTurn == 0){
             text1.setText("YOUR TURN");
             text1.setTextColor(Color.WHITE);
-
-
 
             if(chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_WHITE)){
 
@@ -254,20 +242,16 @@ public class MainActivity extends AppCompatActivity {
 
                 handler.postDelayed(runnable, 1900);
 
-
             }else
 
             if(chessTableModel.isCheck(ChessPieceModel.PieceColor.PIECE_WHITE)){
 
-                Toast.makeText(getApplicationContext(), "CHECK!", Toast.LENGTH_SHORT).show();
+                alertCheck();
             }
-
         }
         else{
             text1.setText("PC TURN");
             text1.setTextColor(Color.BLACK);
-
-
             if(chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_BLACK)){
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 final View dialogView = getLayoutInflater().inflate(R.layout.checkmate, null);
@@ -298,14 +282,13 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             if(chessTableModel.isCheck(ChessPieceModel.PieceColor.PIECE_BLACK)){
-                Toast.makeText(getApplicationContext(), "CHECK!", Toast.LENGTH_SHORT).show();
+                alertCheck();
             }
         }
 
     }
 
     private void performAutoMove(ChessTableModel chessTableModel){
-
 
         if(playerTurn == 1){
 
@@ -415,7 +398,6 @@ public class MainActivity extends AppCompatActivity {
                         changePlayerTurn();
                         updateTurnLabel();
                         updateTableBoardImage();
-
                     }
                 });
 
@@ -423,11 +405,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG,"Numarul de mutari" + moveList.size()+"");
 
             // end Move
-
         }
-
     }
-
     private void drawChessBoard(){
 
         chessTableModel = new ChessTableModel();
@@ -641,22 +620,6 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-    private void startAnimation(View v){
-        int originalPos3[] = new int[2];
-        v.getLocationOnScreen(originalPos3);
-        Log.d("QWE", "view.getWidth= "+v.getMeasuredWidth());
-        Log.d("QWE", "view.getHeight= "+v.getMeasuredHeight());
-        Log.d("ASD", "selectedMarker.x"+selectedMarkerPosition.x);
-        Log.d("ASD", "selectedMarker.y"+selectedMarkerPosition.y);
-
-
-        Animation animation = new TranslateAnimation(20, 1500,20,1100);
-        animation.setDuration(1000);
-        animation.setFillAfter(true);
-        v.startAnimation(animation);
-        v.setVisibility(View.VISIBLE);
-    }
-
     private void alertWrongMove(){
         final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         final View dialogView = getLayoutInflater().inflate(R.layout.alert_wrong_move, null);
@@ -683,6 +646,31 @@ public class MainActivity extends AppCompatActivity {
 
         handler.postDelayed(runnable, 750);
     }
+
+    private void alertCheck(){
+        final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        final View dialogView = getLayoutInflater().inflate(R.layout.alert_check, null);
+        alertDialog.setView(dialogView);
+        alertDialog.show();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (alertDialog.isShowing()) {
+                    alertDialog.dismiss();
+                }
+            }
+        };
+
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+
+        handler.postDelayed(runnable, 900);
+    }
 }
-
-

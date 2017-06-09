@@ -20,7 +20,6 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:elevation="4dp"
-
         android:layout_gravity="center"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
         app:layout_scrollFlags="scroll|enterAlways"
@@ -40,36 +39,64 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/my_toolbar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="3dp"
-        android:orientation="vertical"
-        android:weightSum="2">
+        android:id="@+id/linearLayout">
+
 
         <Button
             android:id="@+id/single_player"
-            android:layout_width="67dp"
-            android:layout_height="67dp"
+            android:layout_width="117dp"
+            android:layout_height="45dp"
             android:layout_marginTop="7dp"
-            android:layout_weight="1"
-            android:background="@drawable/one_player"
-            android:onClick="singlePlayer" />
+            android:onClick="singlePlayer"
+            android:text="ONE PLAYER"
+            android:textSize="11sp" />
+
 
         <Button
-            android:id="@+id/two_player"
-            android:layout_width="67dp"
-            android:layout_height="67dp"
-            android:layout_marginTop="7dp"
-            android:layout_weight="1"
-            android:background="@drawable/two_player"
-            android:onClick="twoPlayer" />
+            android:id="@+id/multiplayer_Btn"
+            android:layout_width="117dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/linearLayout"
+            android:layout_marginEnd="30dp"
+            android:textSize="11sp"
+            android:layout_marginTop="25dp"
+            android:onClick="startMultiplayer"
+            android:text="TWO PLAYER" />
+
+        <Button
+            android:id="@+id/rules_of_chess"
+            android:layout_width="117dp"
+            android:layout_height="49dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/linearLayout"
+            android:layout_marginEnd="15dp"
+            android:textSize="11sp"
+            android:layout_marginTop="20dp"
+            android:onClick="rulesOfChess"
+            android:text="RULES OF CHESS" />
+
+
 
 
     </LinearLayout>
 
-
-
-
+ <!--   <Button
+        android:id="@+id/two_player"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:onClick="twoPlayer"
+        android:text="Bluetooth"
+        android:textSize="11sp"
+        android:layout_alignTop="@+id/linearLayout"
+        android:layout_alignParentEnd="true" />-->
 
 
 </RelativeLayout>
