@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,10 +12,12 @@
             android:id="@+id/btnONOFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="46dp"
+            android:layout_marginBottom="77dp"
             android:text="ON/OFF"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_above="@+id/btnDiscoverable_on_off"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/btnDiscoverable_on_off"
@@ -25,7 +27,9 @@
             android:text="Enable Discoverable"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp"
-            android:layout_weight="0.00" />
+            android:layout_weight="0.00"
+            android:layout_above="@+id/btnFindUnpairedDevices"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/btnFindUnpairedDevices"
@@ -34,7 +38,9 @@
             android:onClick="btnDiscover"
             android:text="Discover"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_above="@+id/btnStartConnection"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/btnStartConnection"
@@ -42,7 +48,9 @@
             android:layout_height="50dp"
             android:text="Start Connection"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_above="@+id/editText"
+            android:layout_alignEnd="@+id/btnSend" />
 
         <EditText
             android:id="@+id/editText"
@@ -50,7 +58,9 @@
             android:layout_height="wrap_content"
             android:hint="Enter Text Here"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_above="@+id/lvNewDevices"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/btnSend"
@@ -58,7 +68,10 @@
             android:layout_height="wrap_content"
             android:text="SEND"
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_above="@+id/incomingMessage"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="38dp" />
 
         <ListView
 
@@ -66,17 +79,22 @@
             android:layout_width="match_parent"
             android:layout_height="117dp"
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_above="@+id/btnSend"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="24dp" />
 
         <TextView
             android:id="@+id/incomingMessage"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="58dp"
             android:layout_weight="0.29"
             android:text="Messages: "
             tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
 
-</LinearLayout>
+</RelativeLayout>

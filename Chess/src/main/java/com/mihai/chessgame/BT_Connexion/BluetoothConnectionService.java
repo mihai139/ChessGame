@@ -25,7 +25,7 @@ public class BluetoothConnectionService {
 
     private static final String appName = "MYAPP";
 
-    private static final UUID MY_UUID_INSECURE =
+    private static final UUID MY_UUIDINSECURE =
             UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
     private final BluetoothAdapter mBluetoothAdapter;
@@ -62,9 +62,9 @@ public class BluetoothConnectionService {
 
             // Create a new listening server socket
             try{
-                tmp = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(appName, MY_UUID_INSECURE);
+                tmp = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(appName, MY_UUIDINSECURE);
 
-                Log.d(TAG, "AcceptThread: Setting up Server using: " + MY_UUID_INSECURE);
+                Log.d(TAG, "AcceptThread: Setting up Server using: " + MY_UUIDINSECURE);
             }catch (IOException e){
                 Log.e(TAG, "AcceptThread: IOException: " + e.getMessage() );
             }
@@ -131,7 +131,7 @@ public class BluetoothConnectionService {
             // given BluetoothDevice
             try {
                 Log.d(TAG, "ConnectThread: Trying to create InsecureRfcommSocket using UUID: "
-                        +MY_UUID_INSECURE );
+                        +MY_UUIDINSECURE );
                 tmp = mmDevice.createRfcommSocketToServiceRecord(deviceUUID);
             } catch (IOException e) {
                 Log.e(TAG, "ConnectThread: Could not create InsecureRfcommSocket " + e.getMessage());
@@ -158,7 +158,7 @@ public class BluetoothConnectionService {
                 } catch (IOException e1) {
                     Log.e(TAG, "mConnectThread: run: Unable to close connection in socket " + e1.getMessage());
                 }
-                Log.d(TAG, "run: ConnectThread: Could not connect to UUID: " + MY_UUID_INSECURE );
+                Log.d(TAG, "run: ConnectThread: Could not connect to UUID: " + MY_UUIDINSECURE );
             }
 
             //will talk about this in the 3rd video

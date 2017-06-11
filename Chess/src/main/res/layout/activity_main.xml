@@ -18,7 +18,8 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gameLayout">
+        android:id="@+id/gameLayout"
+        android:descendantFocusability="blocksDescendants">
 
 
         <TextView
@@ -29,16 +30,9 @@
                     android:gravity="center"
             android:textColor="#ffffff"
                     android:textSize="25sp"
+            android:layout_marginBottom="25dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="70dp"/>
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            android:layout_centerHorizontal="true" />
 
         <Button
             android:id="@+id/newGame"
@@ -53,7 +47,92 @@
 
 
 
+            <Button
+                android:id="@+id/On_OFF"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/newGame"
+                android:text="ON/OFF" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/enableDiscover"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/On_OFF"
+                android:layout_below="@id/newGame"
+                android:onClick="btn_EnableDisable_Discoverable"
+
+                android:text="ENABLE" />
+
+
+            <Button
+                android:id="@+id/discover"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/newGame"
+                android:layout_toRightOf="@id/enableDiscover"
+                android:onClick="btn_Discover"
+
+                android:text="DISCOVER" />
+
+            <Button
+                android:id="@+id/startConnexionBT"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/newGame"
+                android:layout_toRightOf="@id/discover"
+
+                android:text="START" />
+
+            <Button
+                android:id="@+id/buttonSend"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/newGame"
+                android:layout_toRightOf="@id/startConnexionBT"
+
+                android:text="SEND" />
+
+
+            <ListView
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:id="@+id/listNewDevices"
+                android:layout_below="@id/On_OFF"
+
+                android:layout_alignParentStart="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
+            <EditText
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:id="@+id/edit_Text"
+                android:layout_below="@id/On_OFF"
+                android:layout_toRightOf="@id/listNewDevices"
+
+               />
+
+            <TextView
+                android:id="@+id/incoming_Message"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/edit_Text"
+                android:layout_below="@id/On_OFF"
+
+                android:text="Inc. Message" />
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
 
 </FrameLayout>
