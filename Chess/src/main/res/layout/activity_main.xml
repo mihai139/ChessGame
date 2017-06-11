@@ -94,40 +94,38 @@
                 android:text="SEND" />
 
 
-            <ListView
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:id="@+id/listNewDevices"
-                android:layout_below="@id/On_OFF"
 
-                android:layout_alignParentStart="true"
-                android:focusable="false"
-                android:focusableInTouchMode="false"/>
-
-            <EditText
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:id="@+id/edit_Text"
-                android:layout_below="@id/On_OFF"
-                android:layout_toRightOf="@id/listNewDevices"
-
-               />
-
-            <TextView
-                android:id="@+id/incoming_Message"
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:layout_toRightOf="@id/edit_Text"
-                android:layout_below="@id/On_OFF"
-
-                android:text="Inc. Message" />
 
 
 
     </RelativeLayout>
 
 
+    <ListView
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:id="@+id/listNewDevices"
+        android:layout_below="@id/On_OFF"
 
+        android:layout_marginLeft="70dp"/>
+
+    <EditText
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:id="@+id/edit_Text"
+        android:hint="Enter text"
+        android:layout_marginLeft="180dp"
+
+
+        />
+
+    <TextView
+        android:id="@+id/incoming_Message"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="290dp"
+
+        android:text="Inc. Message" />
 
 
 

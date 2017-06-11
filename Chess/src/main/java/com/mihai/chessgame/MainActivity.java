@@ -34,10 +34,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mihai.chessgame.BT_Connexion.BluetoothConnectionService;
 import com.mihai.chessgame.BT_Connexion.DeviceListAdapter;
@@ -143,8 +143,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private boolean mVisible;
     private FrameLayout frameLayout;
     private RelativeLayout gameLayout;
-    private LinearLayout buttonsLL;
-    private LinearLayout viewsLL;
     public boolean isMultiplayer;
 
     @Override
@@ -187,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-        Button btnONOFF = (Button) findViewById(R.id.On_OFF);
+        Button btnON_OFF = (Button) findViewById(R.id.On_OFF);
         btn_EnableDisable_Discoverable = (Button) findViewById(R.id.enableDiscover);
         lvNew_Devices = (ListView) findViewById(R.id.listNewDevices);
         mBT_Devices = new ArrayList<>();
@@ -205,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         lvNew_Devices.setOnItemClickListener(MainActivity.this);
 
-        btnONOFF.setOnClickListener(new View.OnClickListener() {
+        btnON_OFF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: enabling/disabling bluetooth.");
@@ -226,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 byte[] bytes = et_Send.getText().toString().getBytes(Charset.defaultCharset());
                 mBluetooth_Connection.write(bytes);
                 et_Send.setText("");
+
             }
         });
 
@@ -408,6 +407,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             _messages.append(text + "\n");
             incoming_Messages.setText(_messages);
+            Toast.makeText(getApplicationContext(), ""+text, Toast.LENGTH_LONG).show();
         }
     };
 
@@ -418,6 +418,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void startBTConnection(BluetoothDevice device, UUID uuid){
         Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
         mBluetooth_Connection.startClient(device,uuid);
+        Log.d(TAG, "startBTConnection: SUCCESS.");
+
     }
 
     public void enableDisableBT(){
@@ -511,8 +513,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mBT_Device = mBT_Devices.get(i);
             mBluetooth_Connection = new BluetoothConnectionService(MainActivity.this);
         }
-        view.setFocusable(false);
-        view.setFocusableInTouchMode(false);
+
     }
 
 
@@ -808,7 +809,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             offset = new Point(1, (int) (heightScreen / 4.5));
         }
         else{
-            offset = new Point(1, (int) heightScreen/2);
+            offset = new Point(1, (int) heightScreen/5);
         }
         //Drawable back = getResources().getDrawable(R.drawable.background_pic);
 
