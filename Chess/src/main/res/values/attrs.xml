@@ -9,4 +9,16 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+
+    <declare-styleable name="RearrangeableLayout">
+        <attr name="outlineWidth" format="dimension" />
+        <attr name="outlineColor" format="color" />
+        <attr name="selectionAlpha" format="float" />
+        <attr name="selectionZoom" format="float" />
+    </declare-styleable>
+
 </resources>
+
+
+
+

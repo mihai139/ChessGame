@@ -11,26 +11,24 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.util.Size;
 import android.view.Display;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mihai.chessgame.model.ChessPieceModel;
 import com.mihai.chessgame.model.ChessTableModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
         if(widthScreen < 900){
-            alertDialog.getWindow().setLayout(400, 200);
+            alertDialog.getWindow().setLayout(600, 300);
         }
        positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override

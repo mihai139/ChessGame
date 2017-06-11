@@ -1,42 +1,20 @@
 package com.mihai.chessgame;
 
-import android.app.NotificationManager;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.StrictMode;
-import android.provider.Settings;
-import android.speech.tts.TextToSpeech;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+
 
 public class MainMenu extends AppCompatActivity {
 
+    RearrangeableLayout root;
+    Animation bounceAnim;
 
-    private Context current;
-    public boolean isMultiplayer;
-    Toolbar myToolbar;
-    TextToSpeech toSpeech;
-    public String message;
-    Animation animTranslate, animRotate, animScale, animAlpha, bounceAnim;
-    TextView mTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,46 +24,28 @@ public class MainMenu extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         bounceAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
 
-        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        mTitle = (TextView) myToolbar.findViewById(R.id.toolbar_title);
-        //myToolbar.inflateMenu(R.menu.buttons);
-        //myToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-          /*  @Override
-            public boolean onMenuItemClick(MenuItem item) {
+        root = (RearrangeableLayout) findViewById(R.id.activity_main_menu);
+        root.setChildPositionListener(new RearrangeableLayout.ChildPositionListener() {
+            @Override
+            public void onChildMoved(View childView, Rect oldPosition, Rect newPosition) {
 
-                switch (item.getItemId()){
+            }
+        });
 
-                    case R.id.rules_of_chess:
+        root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
 
-                        Intent intent = new Intent(MainMenu.this, RulesOfChess.class);
-                        intent.setAction(Intent.ACTION_SEND);
-                        if (intent.resolveActivity(getPackageManager()) != null) {
-                            startActivity(intent);
-                        }
-                        break;
-
-                    case R.id.rate_app:
-                        Intent intentM = new Intent(MainMenu.this, RateApp.class);
-                        intentM.setAction(Intent.ACTION_SEND);
-                        if (intentM.resolveActivity(getPackageManager()) != null) {
-                            startActivity(intentM);
-                        }
-
-                        break;
-                    case R.id.about:
-
-
-                        Intent intentA = new Intent(MainMenu.this, AboutActivity.class);
-                        intentA.setAction(Intent.ACTION_SEND);
-                        if (intentA.resolveActivity(getPackageManager()) != null) {
-                            startActivity(intentA);
-                        }
-                        break;
-                }
-
+            }
+        });
+        root.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                //Log.d(TAG, "onPreDraw");
+                //Log.d(TAG, root.toString());
                 return true;
             }
-        });*/
+        });
 
     }
 

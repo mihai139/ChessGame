@@ -6,4 +6,6 @@
     <color name="background">#44a8a2</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="cyan">#00FFFF</color>
 </resources>
