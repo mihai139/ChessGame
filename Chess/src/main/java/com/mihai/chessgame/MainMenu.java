@@ -92,17 +92,23 @@ public class MainMenu extends AppCompatActivity implements SurfaceHolder.Callbac
         android.view.ViewGroup.LayoutParams lp = mSurfaceView.getLayoutParams();
 
         //Set the width of the SurfaceView to the width of the screen
-        lp.width = screenWidth;
+        if(screenWidth < 1000) {
+            lp.width = 1200;
+        }
+        else {
+            lp.width = 1700;
+        }
 
         //Set the height of the SurfaceView to match the aspect ratio of the video
         //be sure to cast these as floats otherwise the calculation will likely be 0
         //lp.height = (int) (((float)videoHeight / (float)videoWidth) * (float)screenWidth);
         if(screenWidth <1000){
-            lp.height = 900;
+            lp.height = 1233;
         }
         else{
-            lp.height = 1370;
+            lp.height = 1800;
         }
+
 
 
         //Commit the layout parameters
