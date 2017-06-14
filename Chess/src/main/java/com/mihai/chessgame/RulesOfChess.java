@@ -1,5 +1,6 @@
 package com.mihai.chessgame;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
@@ -22,6 +23,15 @@ public class RulesOfChess extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(RulesOfChess.this, MainMenu.class);
+        intent.setAction(Intent.ACTION_SEND);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
 
 
 

@@ -2,18 +2,26 @@ package com.mihai.chessgame;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import java.io.IOException;
 
-public class MainMenu extends AppCompatActivity {
+
+public class MainMenu extends AppCompatActivity implements SurfaceHolder.Callback {
 
     RearrangeableLayout root;
     Animation bounceAnim;
+    private MediaPlayer mp = null;
+    SurfaceView mSurfaceView=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,10 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = getIntent();
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         bounceAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+
+        mp = new MediaPlayer();
+        mSurfaceView = (SurfaceView) findViewById(R.id.surface);
+        mSurfaceView.getHolder().addCallback(this);
 
         root = (RearrangeableLayout) findViewById(R.id.activity_main_menu);
         root.setChildPositionListener(new RearrangeableLayout.ChildPositionListener() {
@@ -47,6 +59,68 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
+
+        Uri video = Uri.parse("android.resource://" + getPackageName() + "/"
+                + R.raw.videoplayback);
+
+
+        try {
+            mp.setDataSource(this, video);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            mp.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Get the dimensions of the video
+        int videoWidth = mp.getVideoWidth();
+        int videoHeight = mp.getVideoHeight();
+
+        //Get the width of the screen
+        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+        int height = getWindowManager().getDefaultDisplay().getHeight();
+
+        //Get the SurfaceView layout parameters
+        android.view.ViewGroup.LayoutParams lp = mSurfaceView.getLayoutParams();
+
+        //Set the width of the SurfaceView to the width of the screen
+        lp.width = screenWidth;
+
+        //Set the height of the SurfaceView to match the aspect ratio of the video
+        //be sure to cast these as floats otherwise the calculation will likely be 0
+        //lp.height = (int) (((float)videoHeight / (float)videoWidth) * (float)screenWidth);
+        if(screenWidth <1000){
+            lp.height = 900;
+        }
+        else{
+            lp.height = 1370;
+        }
+
+
+        //Commit the layout parameters
+        mSurfaceView.setLayoutParams(lp);
+
+        //Start video
+        mp.setDisplay(holder);
+        mp.start();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        mp.stop();
     }
 
 
