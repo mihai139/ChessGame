@@ -2,7 +2,6 @@ package com.mihai.chessgame;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -44,7 +43,6 @@ import com.mihai.chessgame.BT_Connexion.DeviceListAdapter;
 import com.mihai.chessgame.model.ChessPieceModel;
 import com.mihai.chessgame.model.ChessTableModel;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Size screenSize;
     private ImageButton backgroundButon;
     private RelativeLayout.LayoutParams  paramsBk;
+    public String moveData;
 
 
 
@@ -82,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Button btn_Send;
     StringBuilder _messages;
     TextView incoming_Messages;
+    Point offset;
     EditText et_Send;
     private static final UUID MY_UUIDINSECURE =
             UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
@@ -155,32 +155,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.d("isMultiplayer: ", ""+isMultiplayer);
 
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        display = getWindowManager().getDefaultDisplay();
+        sizeS = new Point();
+        display.getSize(sizeS);
+        widthScreen = sizeS.x;
+        heightScreen = sizeS.y;
         //overridePendingTransition(0,0);
 
-
-
-
-        if(isMultiplayer){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Multiplayer Connection");
-            builder.setPositiveButton("JOIN", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    isHost = false;
-                }
-            });
-            builder.setNegativeButton("CREATE", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    isHost=true;
-                    ProgressDialog progress = new ProgressDialog(MainActivity.this);
-                    progress.setTitle("Loading");
-                    progress.setMessage("Wait while loading...");
-                    progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
-                    progress.show();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+        if(widthScreen <1000) {
+            offset = new Point(1, (int) (heightScreen / 5.5));
         }
+        else{
+            offset = new Point(1, (int) (heightScreen/6.5));
+        }
+
+
+
 
 
 
@@ -221,9 +211,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btn_Send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                byte[] bytes = et_Send.getText().toString().getBytes(Charset.defaultCharset());
+
+                /*byte[] bytes = moveData.getBytes(Charset.defaultCharset());
                 mBluetooth_Connection.write(bytes);
-                et_Send.setText("");
+                Log.d("WILL SEND MOVE", bytes.toString());*/
+                //et_Send.setText("");
 
             }
         });
@@ -236,6 +228,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+        if(isMultiplayer){
+
+
+            if(widthScreen <1000) {
+                offset = new Point(1, (int) (heightScreen / 4));
+            }
+            else{
+                offset = new Point(1, (int) (heightScreen/4.5));
+            }
+
+
+        }
 
 
 
@@ -247,11 +251,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-        display = getWindowManager().getDefaultDisplay();
-        sizeS = new Point();
-        display.getSize(sizeS);
-        widthScreen = sizeS.x;
-        heightScreen = sizeS.y;
+
 
         frameLayout = (FrameLayout)this.findViewById(R.id.frameLayout);
         gameLayout = (RelativeLayout)this.findViewById(R.id.gameLayout);
@@ -403,13 +403,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String text = intent.getStringExtra("theMessage");
+            byte[] incomingBytes = intent.getByteArrayExtra("bytesMessage");
 
-            _messages.append(text + "\n");
-            incoming_Messages.setText(_messages);
-            Toast.makeText(getApplicationContext(), ""+text, Toast.LENGTH_LONG).show();
+           // _messages.append(text + "\n");
+           // incoming_Messages.setText(moveData);
+            //incoming_Messages.setText();
+            Toast.makeText(getApplicationContext(), ""+incomingBytes, Toast.LENGTH_LONG).show();
+            performRemoteMove(incomingBytes);
+
         }
     };
+
+    private void performRemoteMove(byte[] remoteMoveData) {
+
+        //Log.d("incoming Text", remoteMoveData.charAt(0)+"")
+        Log.d("The Move",remoteMoveData[0]+"|"+ remoteMoveData[1]+"|"+ remoteMoveData[2]+"|"+ remoteMoveData[3]+"|"+ "");
+        chessTableModel.performMove(new Point(remoteMoveData[0], remoteMoveData[1]), new Point(remoteMoveData[2], remoteMoveData[3]));
+
+
+        updateTableBoardImage();
+
+        /*gamephase = 0;
+        changePlayerTurn();*/
+    }
 
 
     public void startConnection(){
@@ -804,13 +820,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         squareSize = new Size(widthScreen/8, widthScreen/8);
 
-        Point offset;
-        if(widthScreen <1000) {
-            offset = new Point(1, (int) (heightScreen / 4.5));
-        }
-        else{
-            offset = new Point(1, (int) heightScreen/5);
-        }
+
         //Drawable back = getResources().getDrawable(R.drawable.background_pic);
 
         gameLayout.setBackgroundColor(Color.WHITE);
@@ -908,11 +918,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 selectedPieceModel.canCaptureAnotherPiece(pieceModel)))){
                             int x1 = selectedPieceModel.getPosition().x;
                             int y1 = selectedPieceModel.getPosition().y;
-                         /*   int x2 = y;
-                            int y2 = x;
-                            String moveData = ""+x1+""+y1+""+x2+""+y2;*/
-                            //Log.d("Signature: ", moveData);
+                            int x2 = x;
+                            int y2 = y;
+                            moveData = ""+x1+""+y1+""+y2+""+x2;
+                            Log.d("Signature: ", moveData);
                             Log.d("Selec: ","sss "+ selectedPieceModel.getPieceType().toString()+"");
+
+
+
+
+
 
                             if(selectedPieceModel.listAllPossibleMovesForThisPiece(chessTableModel).contains(new Point(x,y))) {
                                 boolean moveAllowed = true;
@@ -929,6 +944,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                     chessTableModel.performMove(selectedMarkerPosition, new Point(x, y));
 
                                     //startAnimation(b1);
+                                    //if(Multiplayer)--------------------------------
+
+                                    et_Send.setText(moveData);
+                                    byte[] bytes = new byte[4];
+                                    bytes[0] = (byte) x1;
+                                    bytes[1] = (byte) y1;
+                                    bytes[2] = (byte) x2;
+                                    bytes[3] = (byte) y2;
+                                    // moveData.getBytes(Charset.defaultCharset());
+                                    mBluetooth_Connection.write(bytes);
+                                    Log.d("WILL SEND MOVE", bytes.toString());
+
+                                    //-----------------------
 
                                     updateTableBoardImage();
 
