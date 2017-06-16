@@ -33,8 +33,8 @@ public class MainMenu extends AppCompatActivity implements SurfaceHolder.Callbac
         bounceAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
 
         mp = new MediaPlayer();
-        mSurfaceView = (SurfaceView) findViewById(R.id.surface);
-        mSurfaceView.getHolder().addCallback(this);
+       /* mSurfaceView = (SurfaceView) findViewById(R.id.surface);
+        mSurfaceView.getHolder().addCallback(this);*/
 
         root = (RearrangeableLayout) findViewById(R.id.activity_main_menu);
         root.setChildPositionListener(new RearrangeableLayout.ChildPositionListener() {

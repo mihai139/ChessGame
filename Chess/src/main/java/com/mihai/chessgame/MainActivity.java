@@ -410,6 +410,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             //incoming_Messages.setText();
             Toast.makeText(getApplicationContext(), ""+incomingBytes, Toast.LENGTH_LONG).show();
             performRemoteMove(incomingBytes);
+            changePlayerTurn();
+            gamephase=0;
 
         }
     };
@@ -943,20 +945,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                                     chessTableModel.performMove(selectedMarkerPosition, new Point(x, y));
 
-                                    //startAnimation(b1);
-                                    //if(Multiplayer)--------------------------------
 
-                                    et_Send.setText(moveData);
-                                    byte[] bytes = new byte[4];
-                                    bytes[0] = (byte) x1;
-                                    bytes[1] = (byte) y1;
-                                    bytes[2] = (byte) x2;
-                                    bytes[3] = (byte) y2;
-                                    // moveData.getBytes(Charset.defaultCharset());
-                                    mBluetooth_Connection.write(bytes);
-                                    Log.d("WILL SEND MOVE", bytes.toString());
+                                    //Multiplayer------------------------------------
+                                    if(isMultiplayer) {
+                                        et_Send.setText(moveData);
+                                        byte[] bytes = new byte[4];
+                                        bytes[0] = (byte) x1;
+                                        bytes[1] = (byte) y1;
+                                        bytes[2] = (byte) x2;
+                                        bytes[3] = (byte) y2;
+                                        // moveData.getBytes(Charset.defaultCharset());
+                                        mBluetooth_Connection.write(bytes);
+                                        Log.d("WILL SEND MOVE", bytes.toString());
+                                        updateTableBoardImage();
 
-                                    //-----------------------
+                                    }
+
+                                    //------------------------------------------------
 
                                     updateTableBoardImage();
 
@@ -968,13 +973,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                     }
                                     updateTurnLabel();
 
-                                    // perform Oponent Move
+                                    if(isMultiplayer){
+
+
+                                    }
+                                    else {
+
+                                        // perform Oponent Move
                                     Thread thread = new Thread(){
                                         public void run(){
                                             performAutoMove(chessTableModel);
                                         }
                                     };
                                     thread.start();
+                                    }
                                 }
                             }
 
