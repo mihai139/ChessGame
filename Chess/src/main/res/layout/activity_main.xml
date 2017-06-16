@@ -47,51 +47,53 @@
 
 
 
-            <Button
+       <!--     <Button
                 android:id="@+id/On_OFF"
                 android:layout_width="75dp"
                 android:layout_height="40dp"
                 android:layout_below="@id/newGame"
-                android:text="ON/OFF" />
+                android:text="ON/OFF" />-->
 
-            <Button
-                android:id="@+id/enableDiscover"
-                android:layout_width="75dp"
-                android:layout_height="40dp"
-                android:layout_toRightOf="@id/On_OFF"
-                android:layout_below="@id/newGame"
-                android:onClick="btn_EnableDisable_Discoverable"
+        <Button
+            android:id="@+id/enableDiscover"
+            android:layout_width="95dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dp"
 
-                android:text="ENABLE" />
+            android:layout_below="@id/newGame"
+            android:onClick="btn_EnableDisable_Discoverable"
+
+            android:text="ENABLE" />
 
 
-            <Button
-                android:id="@+id/discover"
-                android:layout_width="75dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/newGame"
-                android:layout_toRightOf="@id/enableDiscover"
-                android:onClick="btn_Discover"
+        <Button
+            android:id="@+id/discover"
+            android:layout_width="95dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/newGame"
+            android:layout_toRightOf="@id/enableDiscover"
+            android:onClick="btn_Discover"
 
-                android:text="DISCOVER" />
 
-            <Button
-                android:id="@+id/startConnexionBT"
-                android:layout_width="75dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/newGame"
-                android:layout_toRightOf="@id/discover"
+            android:text="DISCOVER" />
 
-                android:text="START" />
+        <Button
+            android:id="@+id/startConnexionBT"
+            android:layout_width="95dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/newGame"
+            android:layout_toRightOf="@id/discover"
 
-            <Button
+            android:text="START" />
+
+           <!-- <Button
                 android:id="@+id/buttonSend"
                 android:layout_width="75dp"
                 android:layout_height="40dp"
                 android:layout_below="@id/newGame"
                 android:layout_toRightOf="@id/startConnexionBT"
 
-                android:text="SEND" />
+                android:text="SEND" />-->
 
 
 
@@ -102,14 +104,15 @@
 
 
     <ListView
-        android:layout_width="90dp"
-        android:layout_height="40dp"
         android:id="@+id/listNewDevices"
-        android:layout_below="@id/On_OFF"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="150dp"
 
-        android:layout_marginLeft="70dp"/>
 
-    <EditText
+        android:layout_marginLeft="70dp" />
+
+<!--    <EditText
         android:layout_width="90dp"
         android:layout_height="40dp"
         android:id="@+id/edit_Text"
@@ -125,7 +128,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="290dp"
 
-        android:text="Inc. Message" />
+        android:text="Inc. Message" />-->
 
 
 

@@ -231,6 +231,7 @@ public class ChessPieceModel {
                 }
 
             }
+
             else if (pieceColor == PieceColor.PIECE_BLACK) {
 
                 Point capturePointLeft = new Point(position.x-1, position.y+1);
@@ -244,9 +245,7 @@ public class ChessPieceModel {
                     points.add(capturePointRight);
                 }
 
-
                 if (position.y == 1) {
-
 
                     Point p = new Point(position.x, position.y + 2);
                     Point p2 = new Point(position.x, position.y + 1);
@@ -258,16 +257,39 @@ public class ChessPieceModel {
                     if (chessTableModel.getChessPieceModelAtPoint(p2) == null) {
                         points.add(p2);
                     }
-                } else {
+                }
+                else if(position.y == 6){
+                    Point p = new Point(position.x , position.y -2);
+                    Point p2 = new Point(position.x , position.y -1);
+                    if (chessTableModel.getChessPieceModelAtPoint(p) == null && (chessTableModel.getChessPieceModelAtPoint(p2) == null)) {
+                        points.add(p);
+                    }
+                    if (chessTableModel.getChessPieceModelAtPoint(p2) == null) {
+                        points.add(p2);
+                    }
+                }
+                else{
 
-                    Point p = new Point(position.x, position.y + 1);
+                    Point p = new Point(position.x, position.y - 1);
                     if (chessTableModel.getChessPieceModelAtPoint(p) == null && chessTableModel.isPointOnTable(p)) {
                         points.add(p);
                     }
 
 
                 }
-            }
+
+
+                }
+                else{
+
+                    Point p = new Point(position.x, position.y - 1);
+                    if (chessTableModel.getChessPieceModelAtPoint(p) == null && chessTableModel.isPointOnTable(p)) {
+                        points.add(p);
+                    }
+
+
+                }
+
 
 
         }

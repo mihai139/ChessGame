@@ -43,6 +43,7 @@ import com.mihai.chessgame.BT_Connexion.DeviceListAdapter;
 import com.mihai.chessgame.model.ChessPieceModel;
 import com.mihai.chessgame.model.ChessTableModel;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -78,11 +79,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     BluetoothConnectionService mBluetooth_Connection;
     Button btnStart_Connection;
-    Button btn_Send;
+    //Button btn_Send;
     StringBuilder _messages;
-    TextView incoming_Messages;
+    //TextView incoming_Messages;
     Point offset;
-    EditText et_Send;
+    //EditText et_Send;
     private static final UUID MY_UUIDINSECURE =
             UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
    /*private static final UUID MY_UUID_INSECURE =
@@ -175,14 +176,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-        Button btnON_OFF = (Button) findViewById(R.id.On_OFF);
+        //Button btnON_OFF = (Button) findViewById(R.id.On_OFF);
+        //Button discover = (Button)findViewById(R.id.discover);
+        if(isMultiplayer){
+          /*  btn_EnableDisable_Discoverable.setVisibility(View.VISIBLE);
+            lvNew_Devices.setVisibility(View.VISIBLE);
+            btnStart_Connection.setVisibility(View.VISIBLE);*/
+            //discover.setVisibility(View.VISIBLE);
+        }
         btn_EnableDisable_Discoverable = (Button) findViewById(R.id.enableDiscover);
         lvNew_Devices = (ListView) findViewById(R.id.listNewDevices);
         mBT_Devices = new ArrayList<>();
         btnStart_Connection = (Button) findViewById(R.id.startConnexionBT);
-        btn_Send = (Button) findViewById(R.id.buttonSend);
-        et_Send = (EditText) findViewById(R.id.edit_Text);
-        incoming_Messages = (TextView)findViewById(R.id.incoming_Message);
+       // btn_Send = (Button) findViewById(R.id.buttonSend);
+        //et_Send = (EditText) findViewById(R.id.edit_Text);
+        //incoming_Messages = (TextView)findViewById(R.id.incoming_Message);
         _messages = new StringBuilder();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter("incomingMessage"));
 
@@ -193,13 +201,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         lvNew_Devices.setOnItemClickListener(MainActivity.this);
 
-        btnON_OFF.setOnClickListener(new View.OnClickListener() {
+       /* btnON_OFF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: enabling/disabling bluetooth.");
                 enableDisableBT();
             }
-        });
+        });*/
 
         btnStart_Connection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,17 +216,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        btn_Send.setOnClickListener(new View.OnClickListener() {
+        /*btn_Send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                /*byte[] bytes = moveData.getBytes(Charset.defaultCharset());
+                byte[] bytes = moveData.getBytes(Charset.defaultCharset());
                 mBluetooth_Connection.write(bytes);
-                Log.d("WILL SEND MOVE", bytes.toString());*/
+                Log.d("WILL SEND MOVE", bytes.toString());
                 //et_Send.setText("");
 
             }
-        });
+        });*/
 
 
 
@@ -408,10 +416,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
            // _messages.append(text + "\n");
            // incoming_Messages.setText(moveData);
             //incoming_Messages.setText();
-            Toast.makeText(getApplicationContext(), ""+incomingBytes, Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(), ""+incomingBytes, Toast.LENGTH_LONG).show();
             performRemoteMove(incomingBytes);
             changePlayerTurn();
             gamephase=0;
+
+
 
         }
     };
@@ -419,8 +429,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void performRemoteMove(byte[] remoteMoveData) {
 
         //Log.d("incoming Text", remoteMoveData.charAt(0)+"")
-        Log.d("The Move",remoteMoveData[0]+"|"+ remoteMoveData[1]+"|"+ remoteMoveData[2]+"|"+ remoteMoveData[3]+"|"+ "");
-        chessTableModel.performMove(new Point(remoteMoveData[0], remoteMoveData[1]), new Point(remoteMoveData[2], remoteMoveData[3]));
+        Log.d("TheMove",remoteMoveData[0]+"|"+ remoteMoveData[1]+"|"+ remoteMoveData[2]+"|"+ remoteMoveData[3]+"|"+ "");
+        chessTableModel.performMove(new Point(7-remoteMoveData[0], 7-remoteMoveData[1]), new Point(7-remoteMoveData[2], 7-remoteMoveData[3]));
 
 
         updateTableBoardImage();
@@ -557,7 +567,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
        positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chessTableModel.arrangeDefaultPieces();
+                if(isMultiplayer)
+                {
+                    if (widthScreen < 900) {
+                        chessTableModel.arrangeDefaultPieces();
+                    } else {
+                        chessTableModel.arrangeNexusPieces();
+                    }
+                }
+                else{
+                    chessTableModel.arrangeDefaultPieces();
+                }
                 updateTableBoardImage();
                 playerTurn = 0;
                 gamephase = 0;
@@ -600,7 +620,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             text1.setText("YOUR TURN");
             text1.setTextColor(Color.WHITE);
 
-            if(chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_WHITE)){
+            if((chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_WHITE)) || ((chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_BLACK)))){
 
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 final View dialogView = getLayoutInflater().inflate(R.layout.checkmate_lost, null);
@@ -631,7 +651,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             }else
 
-            if(chessTableModel.isCheck(ChessPieceModel.PieceColor.PIECE_WHITE)){
+            if((chessTableModel.isCheck(ChessPieceModel.PieceColor.PIECE_WHITE)) || (chessTableModel.isCheck(ChessPieceModel.PieceColor.PIECE_BLACK))){
 
                 alertCheck();
             }
@@ -668,7 +688,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 handler.postDelayed(runnable, 1900);
             }
             else
-            if(chessTableModel.isCheck(ChessPieceModel.PieceColor.PIECE_BLACK)){
+            if((chessTableModel.isCheck(ChessPieceModel.PieceColor.PIECE_WHITE)) || (chessTableModel.isCheck(ChessPieceModel.PieceColor.PIECE_BLACK))){
                 alertCheck();
             }
         }
@@ -795,8 +815,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
     private void drawChessBoard(){
+        if(isMultiplayer) {
+            if (widthScreen < 900) {
 
-        chessTableModel = new ChessTableModel();
+                chessTableModel = new ChessTableModel();
+            } else {
+                chessTableModel = new ChessTableModel(3);
+            }
+        }
+        else{
+            chessTableModel = new ChessTableModel();
+        }
         gamephase = 0;
         display = getWindowManager().getDefaultDisplay();
         size = new Point();
@@ -948,7 +977,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                                     //Multiplayer------------------------------------
                                     if(isMultiplayer) {
-                                        et_Send.setText(moveData);
+                                        //et_Send.setText(moveData);
                                         byte[] bytes = new byte[4];
                                         bytes[0] = (byte) x1;
                                         bytes[1] = (byte) y1;
@@ -957,6 +986,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                         // moveData.getBytes(Charset.defaultCharset());
                                         mBluetooth_Connection.write(bytes);
                                         Log.d("WILL SEND MOVE", bytes.toString());
+                                        updateTurnLabel();
                                         updateTableBoardImage();
 
                                     }

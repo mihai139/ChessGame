@@ -20,9 +20,13 @@ public class ChessTableModel{
 
 
     public ChessTableModel(){
-
+        
         arrangeDefaultPieces();
+        
+    }
+    public ChessTableModel(int x){
 
+        arrangeNexusPieces();
 
     }
 
@@ -280,6 +284,62 @@ public class ChessTableModel{
         getChessTableModel()[7][5] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_BISHOP, new Point(5,7));
         getChessTableModel()[7][6] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_KNIGHT, new Point(6,7));
         getChessTableModel()[7][7] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_ROOK, new Point(7,7));
+
+
+
+
+
+
+    }
+
+
+
+    public void arrangeNexusPieces (){
+        for(int i = 0;i<8;i++){
+            for(int j=0;j<8;j++){
+                getChessTableModel()[i][j] = null;
+            }
+        }
+        // PAWNS
+        getChessTableModel()[6][0] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_PAWN, new Point(0,6));
+        getChessTableModel()[6][1] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_PAWN, new Point(1,6));
+        getChessTableModel()[6][2] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_PAWN, new Point(2,6));
+        getChessTableModel()[6][3] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_PAWN, new Point(3,6));
+        getChessTableModel()[6][4] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_PAWN, new Point(4,6));
+        getChessTableModel()[6][5] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_PAWN, new Point(5,6));
+        getChessTableModel()[6][6] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_PAWN, new Point(6,6));
+        getChessTableModel()[6][7] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_PAWN, new Point(7,6));
+
+        getChessTableModel()[1][0] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_PAWN, new Point(0,1));
+        getChessTableModel()[1][1] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_PAWN, new Point(1,1));
+        getChessTableModel()[1][2] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_PAWN, new Point(2,1));
+        getChessTableModel()[1][3] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_PAWN, new Point(3,1));
+        getChessTableModel()[1][4] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_PAWN, new Point(4,1));
+        getChessTableModel()[1][5] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_PAWN, new Point(5,1));
+        getChessTableModel()[1][6] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_PAWN, new Point(6,1));
+        getChessTableModel()[1][7] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_PAWN, new Point(7,1));
+
+
+        //OTHERS
+
+        getChessTableModel()[0][0] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_ROOK, new Point(0,0));
+        getChessTableModel()[0][7] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_ROOK, new Point(7,0));
+        getChessTableModel()[0][1] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_KNIGHT, new Point(1,0));
+        getChessTableModel()[0][6] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_KNIGHT, new Point(6,0));
+        getChessTableModel()[0][2] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_BISHOP, new Point(2,0));
+        getChessTableModel()[0][5] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_BISHOP, new Point(5,0));
+        getChessTableModel()[0][4] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_QUEEN, new Point(4,0));
+        getChessTableModel()[0][3] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_WHITE, ChessPieceModel.PieceType.PIECE_KING, new Point(3,0));
+
+
+        getChessTableModel()[7][0] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_ROOK, new Point(0,7));
+        getChessTableModel()[7][1] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_KNIGHT, new Point(1,7));
+        getChessTableModel()[7][2] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_BISHOP, new Point(2,7));
+        getChessTableModel()[7][4] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_QUEEN, new Point(4,7));
+        getChessTableModel()[7][3] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_KING, new Point(3,7));
+        getChessTableModel()[7][5] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_BISHOP, new Point(5,7));
+        getChessTableModel()[7][6] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_KNIGHT, new Point(6,7));
+        getChessTableModel()[7][7] = new ChessPieceModel(ChessPieceModel.PieceColor.PIECE_BLACK, ChessPieceModel.PieceType.PIECE_ROOK, new Point(7,7));
 
 
 
