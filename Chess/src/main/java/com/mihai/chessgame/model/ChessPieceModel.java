@@ -1,7 +1,6 @@
 package com.mihai.chessgame.model;
 
 import android.graphics.Point;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -238,9 +237,19 @@ public class ChessPieceModel {
                 Point capturePointRight = new Point(position.x +1, position.y +1);
 
 
+               /* Point capturePointLeftBT = new Point(position.x-1, position.y-1);
+                Point capturePointRightBT = new Point(position.x +1, position.y -1);*/
+
+
                 if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointLeft))){
                     points.add(capturePointLeft);
                 }
+            /*    if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointLeftBT))){
+                    points.add(capturePointLeftBT);
+                }
+                if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointRightBT))){
+                    points.add(capturePointRightBT);
+                }*/
                 if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointRight))){
                     points.add(capturePointRight);
                 }
@@ -258,7 +267,7 @@ public class ChessPieceModel {
                         points.add(p2);
                     }
                 }
-                else if(position.y == 6){
+               /* else if(position.y == 6){
                     Point p = new Point(position.x , position.y -2);
                     Point p2 = new Point(position.x , position.y -1);
                     if (chessTableModel.getChessPieceModelAtPoint(p) == null && (chessTableModel.getChessPieceModelAtPoint(p2) == null)) {
@@ -267,7 +276,7 @@ public class ChessPieceModel {
                     if (chessTableModel.getChessPieceModelAtPoint(p2) == null) {
                         points.add(p2);
                     }
-                }
+                }*/
                 else{
 
                     Point p = new Point(position.x, position.y - 1);
@@ -713,6 +722,610 @@ public class ChessPieceModel {
 
         return points;
     }
+
+
+
+    public List<Point> listAllPossibleMovesForThisPieceBT (ChessTableModel chessTableModel){
+        List<Point> points = new ArrayList<Point>();
+        if( pieceType ==   PieceType.PIECE_ROOK ){
+
+            for(int i = position.x +1;i<8;i++){
+                Point p =new Point(i, position.y);
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if(piece == null && chessTableModel.isPointOnTable(p)){
+                    points.add(p);
+                }
+                else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    }
+                    else break;
+                }
+
+
+            }
+            for (int i = position.x-1 ; i>=0;i--){
+
+                Point p =new Point(i, position.y);
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if(piece == null && chessTableModel.isPointOnTable(p)){
+                    points.add(p);
+                }
+                else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    }
+                    else break;
+                }
+            }
+            for (int j = position.y-1;j>=0;j--){
+
+                Point p =new Point(position.x,j);
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if(piece == null && chessTableModel.isPointOnTable(p)){
+                    points.add(p);
+                }
+                else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    }
+                    else break;
+                }
+            }
+            for(int j = position.y+1;j<8;j++){
+
+                Point p =new Point(position.x, j);
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if(piece == null && chessTableModel.isPointOnTable(p)){
+                    points.add(p);
+                }
+                else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    }
+                    else break;
+                }
+            }
+
+
+        }
+
+        if(pieceType == PieceType.PIECE_PAWN){
+            if(pieceColor == PieceColor.PIECE_WHITE){
+
+
+                Point capturePointLeft = new Point(position.x-1, position.y-1);
+                Point capturePointRight = new Point(position.x +1, position.y -1);
+
+
+                if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointLeft))){
+                    points.add(capturePointLeft);
+                }
+                if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointRight))){
+                    points.add(capturePointRight);
+                }
+
+                if(position.y == 6){
+                    Point p = new Point(position.x , position.y -2);
+                    Point p2 = new Point(position.x , position.y -1);
+
+                    if(chessTableModel.getChessPieceModelAtPoint(p)== null && (chessTableModel.getChessPieceModelAtPoint(p2)== null)){
+                        points.add(p);
+                    }
+
+                    if(chessTableModel.getChessPieceModelAtPoint(p2)== null){
+                        points.add(p2);
+                    }
+
+                }
+                else {
+
+                    Point p = new Point(position.x , position.y -1);
+                    if(chessTableModel.getChessPieceModelAtPoint(p)== null && chessTableModel.isPointOnTable(p)){
+                        points.add(p);
+                    }
+
+                }
+
+            }
+
+            else if (pieceColor == PieceColor.PIECE_BLACK) {
+
+                Point capturePointLeft = new Point(position.x-1, position.y+1);
+                Point capturePointRight = new Point(position.x +1, position.y +1);
+
+
+                Point capturePointLeftBT = new Point(position.x-1, position.y-1);
+                Point capturePointRightBT = new Point(position.x +1, position.y -1);
+
+
+                if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointLeft))){
+                    points.add(capturePointLeft);
+                }
+                if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointLeftBT))){
+                    points.add(capturePointLeftBT);
+                }
+                if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointRightBT))){
+                    points.add(capturePointRightBT);
+                }
+                if(this.canCaptureAnotherPiece(chessTableModel.getChessPieceModelAtPoint(capturePointRight))){
+                    points.add(capturePointRight);
+                }
+
+                if (position.y == 1) {
+
+                    Point p = new Point(position.x, position.y + 2);
+                    Point p2 = new Point(position.x, position.y + 1);
+                    if (chessTableModel.getChessPieceModelAtPoint(p) == null && (chessTableModel.getChessPieceModelAtPoint(p2) == null)) {
+                        points.add(p);
+                    }
+
+
+                    if (chessTableModel.getChessPieceModelAtPoint(p2) == null) {
+                        points.add(p2);
+                    }
+                }
+                else if(position.y == 6){
+                    Point p = new Point(position.x , position.y -2);
+                    Point p2 = new Point(position.x , position.y -1);
+                    if (chessTableModel.getChessPieceModelAtPoint(p) == null && (chessTableModel.getChessPieceModelAtPoint(p2) == null)) {
+                        points.add(p);
+                    }
+                    if (chessTableModel.getChessPieceModelAtPoint(p2) == null) {
+                        points.add(p2);
+                    }
+                }
+                else{
+
+                    Point p = new Point(position.x, position.y - 1);
+                    if (chessTableModel.getChessPieceModelAtPoint(p) == null && chessTableModel.isPointOnTable(p)) {
+                        points.add(p);
+                    }
+
+
+                }
+
+
+            }
+            else{
+
+                Point p = new Point(position.x, position.y - 1);
+                if (chessTableModel.getChessPieceModelAtPoint(p) == null && chessTableModel.isPointOnTable(p)) {
+                    points.add(p);
+                }
+
+
+            }
+
+
+
+        }
+
+        if(pieceType == PieceType.PIECE_BISHOP){
+
+            for(int i = 0; i<8;i++) {
+
+                Point p = new Point(position.x + 1 + i, position.y + i + 1);
+
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+
+
+            for(int i = 0; i<8;i++) {
+
+                Point p = new Point(position.x - 1 - i, position.y - i - 1);
+
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+
+            for(int i = 0; i<8;i++) {
+
+                Point p = new Point(position.x + 1 + i, position.y - i - 1);
+
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+
+
+            for(int i = 0; i<8;i++) {
+
+                Point p = new Point(position.x - 1 - i, position.y + i + 1);
+
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+
+        }
+
+
+
+
+
+
+
+        if(pieceType == PieceType.PIECE_KNIGHT){
+
+            Point p = new Point(position.x-1, position.y -2);
+            ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+            p = new Point(position.x-2, position.y -1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+            p = new Point(position.x+1, position.y -2);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+            p = new Point(position.x-1, position.y +2);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+            p = new Point(position.x+1, position.y +2);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+            p = new Point(position.x-2, position.y +1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+            p = new Point(position.x+2, position.y -1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+            p = new Point(position.x+2, position.y +1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+        }
+
+
+
+        if(pieceType == PieceType.PIECE_KING){
+            Point p = new Point(position.x-1, position.y -1);
+            ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+            p = new Point(position.x-1, position.y);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+            p = new Point(position.x-1, position.y+1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+            p = new Point(position.x, position.y+1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+            p = new Point(position.x, position.y-1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+            p = new Point(position.x+1, position.y-1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+            p = new Point(position.x+1, position.y);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+            p = new Point(position.x+1, position.y+1);
+            piece = chessTableModel.getChessPieceModelAtPoint(p);
+            if(piece == null && chessTableModel.isPointOnTable(p)){
+                points.add(p);
+            }
+            else{
+                if(this.canCaptureAnotherPiece(piece)) {
+                    points.add(p);
+                }
+            }
+
+
+
+
+            Point p1 = new Point(position.x+2, position.y );
+
+            if (isSmallCastlingAllowedOnKing(chessTableModel)) {
+
+
+                points.add(p1);
+
+            }
+            Point p2 = new Point(position.x-3, position.y );
+
+            if (isBigCastlingAllowedOnKing(chessTableModel)) {
+
+
+                points.add(p2);
+
+            }
+
+
+
+        }
+        if(pieceType == PieceType.PIECE_QUEEN) {
+
+            for (int i = position.x + 1; i < 8; i++) {
+                Point p = new Point(i, position.y);
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+            for (int i = position.x - 1; i >= 0; i--) {
+
+                Point p = new Point(i, position.y);
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+            }
+            for (int j = position.y - 1; j >= 0; j--) {
+
+                Point p = new Point(position.x, j);
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+            }
+            for (int j = position.y + 1; j < 8; j++) {
+
+                Point p = new Point(position.x, j);
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+            }
+
+
+            for (int i = 0; i < 8; i++) {
+
+                Point p = new Point(position.x + 1 + i, position.y + i + 1);
+
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+
+
+            for (int i = 0; i < 8; i++) {
+
+                Point p = new Point(position.x - 1 - i, position.y - i - 1);
+
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+
+            for (int i = 0; i < 8; i++) {
+
+                Point p = new Point(position.x + 1 + i, position.y - i - 1);
+
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+
+
+            for (int i = 0; i < 8; i++) {
+
+                Point p = new Point(position.x - 1 - i, position.y + i + 1);
+
+                ChessPieceModel piece = chessTableModel.getChessPieceModelAtPoint(p);
+                if (piece == null && chessTableModel.isPointOnTable(p)) {
+
+                    points.add(p);
+                } else {
+                    if (this.canCaptureAnotherPiece(piece)) {
+                        points.add(p);
+                        break;
+                    } else break;
+                }
+
+
+            }
+
+        }
+
+        return points;
+    }
+
+
 
     public boolean isSmallCastlingAllowedOnKing(ChessTableModel chessTableModel){
         int c = 7;

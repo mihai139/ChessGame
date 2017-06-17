@@ -30,20 +30,17 @@ import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mihai.chessgame.BT_Connexion.BluetoothConnectionService;
 import com.mihai.chessgame.BT_Connexion.DeviceListAdapter;
 import com.mihai.chessgame.model.ChessPieceModel;
 import com.mihai.chessgame.model.ChessTableModel;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -113,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ChessTableModel  chessTableModel;
     private Size squareSize;
     private int playerTurn;
+    Button discover;
 
     public boolean isHost;
 
@@ -177,13 +175,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         //Button btnON_OFF = (Button) findViewById(R.id.On_OFF);
-        //Button discover = (Button)findViewById(R.id.discover);
-        if(isMultiplayer){
-          /*  btn_EnableDisable_Discoverable.setVisibility(View.VISIBLE);
-            lvNew_Devices.setVisibility(View.VISIBLE);
-            btnStart_Connection.setVisibility(View.VISIBLE);*/
-            //discover.setVisibility(View.VISIBLE);
-        }
+        discover = (Button)findViewById(R.id.discover);
+
         btn_EnableDisable_Discoverable = (Button) findViewById(R.id.enableDiscover);
         lvNew_Devices = (ListView) findViewById(R.id.listNewDevices);
         mBT_Devices = new ArrayList<>();
@@ -208,13 +201,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 enableDisableBT();
             }
         });*/
-
         btnStart_Connection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startConnection();
             }
         });
+
+        if(isMultiplayer){
+            discover.setVisibility(View.VISIBLE);
+            lvNew_Devices.setVisibility(View.VISIBLE);
+            btn_EnableDisable_Discoverable.setVisibility(View.VISIBLE);
+            btnStart_Connection.setVisibility(View.VISIBLE);
+        }
+        else {
+            discover.setVisibility(View.INVISIBLE);
+            lvNew_Devices.setVisibility(View.INVISIBLE);
+            btn_EnableDisable_Discoverable.setVisibility(View.INVISIBLE);
+            btnStart_Connection.setVisibility(View.INVISIBLE);
+        }
+
+
 
         /*btn_Send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -423,6 +430,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+
         }
     };
 
@@ -432,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.d("TheMove",remoteMoveData[0]+"|"+ remoteMoveData[1]+"|"+ remoteMoveData[2]+"|"+ remoteMoveData[3]+"|"+ "");
         chessTableModel.performMove(new Point(7-remoteMoveData[0], 7-remoteMoveData[1]), new Point(7-remoteMoveData[2], 7-remoteMoveData[3]));
 
-
+        updateTurnLabel();
         updateTableBoardImage();
 
         /*gamephase = 0;
@@ -617,8 +625,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void updateTurnLabel(){
         if(playerTurn == 0){
-            text1.setText("YOUR TURN");
-            text1.setTextColor(Color.WHITE);
+            /*text1.setText("YOUR TURN");
+            text1.setTextColor(Color.WHITE);*/
 
             if((chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_WHITE)) || ((chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_BLACK)))){
 
@@ -657,9 +665,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         }
         else{
-            text1.setText("PC TURN");
-            text1.setTextColor(Color.BLACK);
-            if(chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_BLACK)){
+           /* text1.setText("PC TURN");
+            text1.setTextColor(Color.BLACK);*/
+            if((chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_WHITE)) || ((chessTableModel.isCheckMate(ChessPieceModel.PieceColor.PIECE_BLACK)))){
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 final View dialogView = getLayoutInflater().inflate(R.layout.checkmate, null);
                 dialog.setView(dialogView);
@@ -956,69 +964,88 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             Log.d("Selec: ","sss "+ selectedPieceModel.getPieceType().toString()+"");
 
 
+                            if(isMultiplayer){
+                                if(selectedPieceModel.listAllPossibleMovesForThisPieceBT(chessTableModel).contains(new Point(x,y))){
+                                    boolean moveAllowed = true;
 
-
-
-
-                            if(selectedPieceModel.listAllPossibleMovesForThisPiece(chessTableModel).contains(new Point(x,y))) {
-                                boolean moveAllowed = true;
-
-                                ChessTableModel table2 = new ChessTableModel();
-                                table2.setChessTableModel(chessTableModel.cloneTable());
-                                table2.performMove(selectedPieceModel.getPosition(), new Point(x, y));
-                                if (table2.isCheck(selectedPieceModel.getPieceColor())) {
-                                    moveAllowed = false;
-                                }
-
-                                if (moveAllowed) {
-
-                                    chessTableModel.performMove(selectedMarkerPosition, new Point(x, y));
-
-
-                                    //Multiplayer------------------------------------
-                                    if(isMultiplayer) {
-                                        //et_Send.setText(moveData);
-                                        byte[] bytes = new byte[4];
-                                        bytes[0] = (byte) x1;
-                                        bytes[1] = (byte) y1;
-                                        bytes[2] = (byte) x2;
-                                        bytes[3] = (byte) y2;
-                                        // moveData.getBytes(Charset.defaultCharset());
-                                        mBluetooth_Connection.write(bytes);
-                                        Log.d("WILL SEND MOVE", bytes.toString());
-                                        updateTurnLabel();
-                                        updateTableBoardImage();
-
+                                    ChessTableModel table2 = new ChessTableModel();
+                                    table2.setChessTableModel(chessTableModel.cloneTable());
+                                    table2.performMove(selectedPieceModel.getPosition(), new Point(x, y));
+                                    if (table2.isCheck(selectedPieceModel.getPieceColor())) {
+                                        moveAllowed = false;
                                     }
 
-                                    //------------------------------------------------
+                                    if (moveAllowed) {
 
-                                    updateTableBoardImage();
+                                        chessTableModel.performMove(selectedMarkerPosition, new Point(x, y));
 
+                                            byte[] bytes = new byte[4];
+                                            bytes[0] = (byte) x1;
+                                            bytes[1] = (byte) y1;
+                                            bytes[2] = (byte) x2;
+                                            bytes[3] = (byte) y2;
+                                            // moveData.getBytes(Charset.defaultCharset());
+                                            mBluetooth_Connection.write(bytes);
+                                            Log.d("WILL SEND MOVE", bytes.toString());
+                                            //updateTurnLabel();
+                                            updateTableBoardImage();
+
+
+                                        gamephase = 0;
+                                        changePlayerTurn();
+
+                                        if (markedLayout != null) {
+                                            markedLayout.setVisibility(View.GONE);
+                                        }
+                                        updateTurnLabel();
+                                    }
+
+                                }
+                                else{
                                     gamephase = 0;
-                                    changePlayerTurn();
 
                                     if (markedLayout != null) {
                                         markedLayout.setVisibility(View.GONE);
                                     }
-                                    updateTurnLabel();
-
-                                    if(isMultiplayer){
-
-
-                                    }
-                                    else {
-
-                                        // perform Oponent Move
-                                    Thread thread = new Thread(){
-                                        public void run(){
-                                            performAutoMove(chessTableModel);
-                                        }
-                                    };
-                                    thread.start();
-                                    }
+                                    alertWrongMove();
                                 }
                             }
+
+                            else if (selectedPieceModel.listAllPossibleMovesForThisPiece(chessTableModel).contains(new Point(x, y))) {
+                                    boolean moveAllowed = true;
+
+                                    ChessTableModel table2 = new ChessTableModel();
+                                    table2.setChessTableModel(chessTableModel.cloneTable());
+                                    table2.performMove(selectedPieceModel.getPosition(), new Point(x, y));
+                                    if (table2.isCheck(selectedPieceModel.getPieceColor())) {
+                                        moveAllowed = false;
+                                    }
+
+                                    if (moveAllowed) {
+
+                                        chessTableModel.performMove(selectedMarkerPosition, new Point(x, y));
+
+                                        updateTableBoardImage();
+
+                                        gamephase = 0;
+                                        changePlayerTurn();
+
+                                        if (markedLayout != null) {
+                                            markedLayout.setVisibility(View.GONE);
+                                        }
+                                        updateTurnLabel();
+
+                                            // perform Oponent Move
+                                            Thread thread = new Thread() {
+                                                public void run() {
+                                                    performAutoMove(chessTableModel);
+                                                }
+                                            };
+                                            thread.start();
+
+                                    }
+                                }
+
 
                             else{
                                 // wrong move
